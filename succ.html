@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h2>支付成功！<span id = 'time'>10</span>秒后跳转至指定页面</h2> 
+        <!-- '<span>'是指根据光标接着写一行文字 作用是方便对文字进行个性化修改或者动态修改以及处理交互事件 与'<div>'不同的是： <div>是块级元素 <span>是行内元素，前后不换行 -->
+        <button id = "return">返回页面</button>
+    </div>        
+        <script>
+            let timer = 10;
+            function Jump () {
+                location.href = 'https://www.bilibili.com'
+            }
+            let decline = setInterval(()=>{ //这是箭头函数，省略了函数名称，箭头连接参数和函数体。并且，将setInterval方法赋值给decline，方便之后删除定时器
+                timer--;
+                document.getElementById('time').innerText = timer;
+                if (timer == 0) {
+                    clearInterval(decline)
+                    Jump()
+                }
+            },1000) //1秒=1000毫秒
+            document.getElementById('return').onclick = function () { //这里不能写成 = Jump()。 电脑读取到此处会直接调用Jump函数，而不是点击按钮后再调用。所以建议使用Jump或者使用匿名函数
+                clearInterval(decline)
+                Jump()
+            }
+            
+        
+        </script>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h3>订单信息</h3>
+        <p>日期 : 2026/04/19</p>
+        <p>订单序列号 : 123456</p>
+        <p>内容 : Web前端开发网课</p>
+        <p>原金额 : 1999¥</p>
+        <p>需支付金额 : 1.999¥</p>
+        <button id = 'cancel'>取消订单</button>
+        <button id = 'pay'>支付订单</button>
+    </div>
+    <!-- We need to write '<button>' tags inside the <div> container -->
+
+    <script>
+        document.getElementById('cancel').onclick = function () { //将函数操作赋值给点击行为
+            location.href = ("https://www.hkmu.edu.hk") //记得，location.href 是JS中用于获取或者重新设置整个页面URL的 !属性!，所以其后面要用等于号 
+        }
+        document.getElementById('pay').onclick = function () {
+            result = window.confirm("你确定进行支付吗？")
+            if (result) {location.href = ('./succ.html')
+
+            }
+
+            
+        }
+        </script>
+</body>
+</html>
