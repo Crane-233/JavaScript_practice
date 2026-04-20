@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜数字游戏</title>
+</head>
+<body>
+    <script>
+        let c_num = Math.floor(Math.random()*10+1) //设定需要猜的正确数字： 使用伪随机数生成1-10之间的随机数 由于Math.random生成的数字是[0,1)之间 所以需要乘以10。
+        
+        let try_time = 5 //设置用户可以尝试的次数。
+        for (try_time;try_time>0;try_time--){ //循环满足的条件是尝试次数大于0。！！！减1的操作发生在「每次循环体内部的代码执行完毕后，下一次条件判断（try_time>0）之前」，即完成一次迭代后再进行操作。
+            let g_num = window.prompt('请输入1-10之间的数字,您还有 '+String(try_time)+' 次机会') //注意：使用.prompt和.alert最好使用一个大字符串，由多个字符串拼接而成 使用'String()'将数字转换为字符串。
+            g_num = Number(g_num)
+            if (isNaN(g_num) || g_num<1 || g_num>10) {
+                alert("请输入从1-10之间的数字，您刚才输错了！")
+                
+            } //用于验证用户输入的是不是数字 并且是不是1-10之间的数字。如果input不符合要求，则直接跳过以下的else语句。如果try_time>0，则进入下一次循环，系统又一次让用户输入数字；如果try_time = 0，弹出正确数字，并且直接结束循环。
+            else{ //input符合要求，现在对input的数字与需要猜的正确数字进行比较。
+                if (c_num == g_num) {
+                    alert("猜对了! "+" 您用了 "+String(5-(try_time-1))+" 次机会！")
+                    try_time = -1 //！！！将try_time设置成-1，使得不满足下一次循环的条件，直接结束猜数字游戏。
+                }//执行完if语句后，不需要执行else语句的内容。
+                else {
+                    if (try_time == 1) { alert("猜不到哦！正确数字是 "+String(c_num)+' !') //尝试次数为1已经是最后一次尝试机会，因为在执行完这一次迭代之后，try_time-1 = 0，无法满足循环进行的条件。
+                    break}//注意这里触发break语句之后，直接跳出for循环，不会进行自减操作，即此时try_time的值仍然是1
+                    // 注意这里最好不要用else语句对应这个if语句，因为我们在猜对数字的代码中将try_time设置为-1。如果这里用else,可能会执行以下代码
+                    if (g_num > c_num) { //猜的数字偏大
+                        let confirm1 = confirm('猜错了！猜的数字偏大！您是否要继续？您还有 '+String(try_time-1)+' 次机会！')
+                        if (!confirm1) { //用户不玩了
+                            alert("猜不到哦！正确数字是 "+String(c_num)+' !')
+                            break //直接跳出for循环
+
+                        }
+                        else{ //用户选择继续游戏
+                            continue //continue的作用是跳过以下代码，「依然会执行自减操作，在进行条件判断之后，决定是否开始下一次循环」
+                        }
+                    }
+                    else { //猜的数字偏小
+                        let confirm2 = confirm('猜错了！猜的数字偏小！您是否要继续？您还有 '+String(try_time-1)+' 次机会！')
+                        if (!confirm2) {
+                            alert("猜不到哦！正确数字是 "+String(c_num)+' !')
+                            break
+
+                        }
+                        else{
+                            continue
+                        }
+
+                    }
+
+                }
+        }   
+
+        }//for循环结束位置
+        
+        if (try_time == 0) {
+            alert("猜不到哦！正确数字是 "+String(c_num)+' !')
+        }
+
+
+    </script>
+</body>
+</html>
