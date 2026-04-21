@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生成绩管理</title>
+</head>
+<body>
+    <div>
+        <h1>学生信息管理系统</h1>
+        <button type="button" id="update">添加学生信息</button>
+        <button type="button" id="avg">计算平均分</button>     <!-- avg是average的缩写 -->
+        <button type="button" id="best">得分最高者！</button>
+        <p id="content">Class Report<br></p>    <!-- 在<p>标签内，文字换行使用<br> -->
+        <p id="avg_content" style="font-size: large;"></p>    <!-- 设置文字字体大小 font-size -->
+        <p id="best_content" style="font-size: large;"></p>    <!-- 此处可以将三个<p>内的内容使用类名标记，然后在<script>部分选中这一个类，进行统一修改样式 -->
+        </div>
+    <script>
+        var elem = document.getElementById("content");
+        elem.style.fontSize = '20px' //fontSize
+        
+        const allButtons = document.querySelectorAll('[type="button"]'); //使用 querySelectorAll 来选中上面所有按钮，并将它们存放在一个类似数组的集合(NodeList)中
+        allButtons.forEach(btn => { //通过循环遍历集合，使得集合中的每一个元素（i.e.按钮）都被修改样式。其中的'btn'是我们从集合中提取出来的元素的我们自己设置的一个临时名字，用来代表其中某一个元素。
+        btn.style.fontSize = '15px'
+        btn.style.backgroundColor = 'White'
+        btn.style.marginRight = '15px' //在按钮右侧添加15px的间距
+        btn.style.padding = '15px 15px';
+        btn.style.borderRadius = '30px';})//花括号内的内容是具体修改的样式：padding指的是文字到内边框的距离，第一个是上下边距，第二个是左右边距；而borderRadius指的是圆角，用来控制按钮边角的弧度，数值越大，按钮越圆。
+        
+        let stu_name = ['Alice','Bob','Charlie','David','Eve']
+        let stu_grade = [85,92,88,91,76] //在用数组存储数字时，最好不要加上引号
+        
+        /*
+        window.onload = function (){ //这一步是匿名函数，可以不用写函数名字。window.onload后面要用等于号。赋值一个函数定义，在这个函数内部再去调用带参函数
+            for (i;i<5;i++) {
+                str = str + (stu_name[i]+' : '+stu_grade[i]+'\n')
+            }
+            document.write(str) //如果将该行代码放在window.onload外面，即在页面加载完之后执行document.write。这会隐式调用document.open()，后果是清空当前文档（包括脚本）的所有内容，然后重新开始写新的内容
+        }
+        */
+       function report(){ //用来显示当前已存储的学生的成绩信息
+        for (let i = 0;i<5;i++) {
+                document.getElementById('content').innerText += (stu_name[i]+' : '+stu_grade[i]+'\n') //使用\n进行换行
+        }   
+       }
+
+       function add(){
+        let name,grade //在这里就要声明好变量。因为当你使用while或者for循环时，如果在循环内部用let或者const声明变量，循环结束后，变量将无法被外部访问。
+        name = window.prompt("请输入学生姓名： ")
+        if (name) { //如果输入符合要求（即不是null或者''） 注意：!name 包含 null 和 ''（空字符串）两种情况
+                grade = window.prompt("请输入对应成绩： ")
+                if (grade) { //如果输入符合要求（即不是null或者''）
+                    grade = Number(grade) //将字符串转换为数字或者NaN
+                    if (isNaN(grade)){ //如果输入不是一个数字
+                    alert('您输入的不是一个数字，请重试！')
+                    }
+                }
+                else{ //如果输入的成绩是null或者''
+                    return //返回一个空
+                }
+        }
+        else{ //如果输入的名字是null或者''
+            return //返回一个空
+        }
+            
+       stu_name.push(name)
+       stu_grade.push(grade)
+       //将新增的学生信息分别插入两个数组
+     
+       document.getElementById('content').innerText += name + ' : ' + String(grade) + '\n' //需要将grade从数字转换为字符串，再进行拼接
+       document.getElementById('avg_content').innerText = '' //新增学生信息时，将平均分信息清空
+       document.getElementById('best_content').innerText = '' //新增学生信息时，将最好成绩信息清空
+
+        }
+
+        function mean(){
+            let sum = 0
+            for(let j = 0;j< stu_grade.length;j++){ //在for循环内部声明j变量，防止影响到其他循环中同名的j变量
+                sum+=Number(stu_grade[j])
+            }
+            avg = Math.round((sum/stu_grade.length)*100)/100 //保留两位小数
+            document.getElementById('avg_content').innerText = 'Class Average : ' + String(avg)+'\n'    
+        }
+        
+        function findbest() {
+            max_grade = Math.max(...stu_grade) //由于stu_grade是一个数组，并且Math.max只能接受元素。所以需要使用拓展符号'...'展开数组
+            max_index = stu_grade.indexOf(max_grade) //.indexOf() (.)前面写的是选中的数组，括号内写的是数组中对应的元素。返回值是指定元素在指定数组中的索引
+            max_name = stu_name[max_index]
+            document.getElementById('best_content').innerText = 'Highest Grade : ' +max_name+' with '+ String(max_grade)+'\n'
+
+        }
+
+        window.onload = function () { //记得onload后面是等于号
+            report()    
+        }
+        document.getElementById('update').onclick = add 
+        document.getElementById('avg').onclick = mean
+        document.getElementById('best').onclick = findbest
+        //点击按钮触发对应函数功能，注意函数后面不能加上()，否则会立即执行,让浏览器持有了“运行后的残骸”，并且这个按钮并没有函数的控制权。也可以使用匿名函数或者箭头函数来代替这种写法。    
+    </script>
+</body>
+</html>
