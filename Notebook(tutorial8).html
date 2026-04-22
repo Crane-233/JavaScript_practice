@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebook</title>
+    <img src="notebook.png" width="80" height="50"> 
+    <!-- 可以调节图片的宽度和高度 -->
+    <link rel="stylesheet" href="styles.css"> 
+    <!-- 注意这里要填rel信息（是“relationship”的缩写），表明引入的外部CSS文件与该HTML文件的关系。href表示文件所在的地址 -->
+</head>
+<body>
+    <h1>Notebook</h1><br>
+    <form name="notebook" id="notebook" onsubmit="handin(); return false" >
+    <label for="output">OUTPUT:</label><br>
+    <textarea name="output" cols="100" rows="25" id="output" readonly></textarea><br>
+    <label for="input">INPUT:</label><br>
+    <textarea name="input" cols="100" rows="10" id="input" required></textarea><br>
+    <input type="submit" id="submit" value="submit" style="font-size: larger; margin-left: 10px; padding: 20px; border-radius: 50px;background-color: white;" >
+    </form>
+    <script>
+        function handin() {
+            let intext = document.notebook.input.value
+            document.notebook.output.value += (intext + '\n')
+            document.notebook.input.value = ''
+        }
+    </script>
+</body>
+</html>
