@@ -8,7 +8,8 @@
 <body>
     <h1>学生成绩管理系统</h1>
         <div>
-            <form name="stu_form" id="stu_form">
+            <form name="stu_form" id="stu_form" onsubmit="display();return false"> 
+                <!-- 要在form标签内设定onsubmit事件 -->
                 <!-- 创建一个表单,建议在设计与表单相关联的标签时（如<form>,<input>,<textarea>等），将id和name两个属性都写上，id和name相同也可以。便于JavaScript进行选择和表单提交s-->
                 <label for="stu_name">学生姓名: </label>
                 <!-- label至填写学生姓名的区域，作用是给输入框添加文字说明
@@ -20,8 +21,10 @@
                 <!-- 在让用户填写学生的分数时，可以将input的类型设置为number -->
                 <textarea id="content" name="content" cols="40" rows="30" style="font-size:larger" readonly></textarea><br>
                 <!-- textarea需要设置列长度和行长度。readonly就是read-only（只读） -->
-                <input type="button" value="Submit Grade" style="font-size: larger;margin-right: 10px;padding: 15px;border-radius: 30px;background-color:rgb(244, 241, 234)" onclick=display()>
+                <input type="submit" value="Submit Grade" style="font-size: larger;margin-right: 10px;padding: 15px;border-radius: 30px;background-color:rgb(244, 241, 234)" >
                 <!-- 在表单中设计按钮，需要在input标签下进行，将type命名为button，value指的是按钮的名字，它会显示在界面中。onclick的等于号后面不需要加引号，而且函数名后面要加上括号。因为这里不属于<script>的区域，所以这里属于HTML的标签里面，而不是在JavaScript代码里绑定。后者不能在函数名后面加括号 -->
+                <!-- 如果把按钮设计成type='button'，而且把onclick绑定给这个按钮，这样就会直接绕过原生表单验证机制，required就会失效 -->
+                <!-- 要将type改成submit，而且不能绑定onclick -->
             </form>
         </div>
     <script>
