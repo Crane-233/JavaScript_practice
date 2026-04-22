@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age</title>
+    <script src="dateLibrary.js"></script>
+</head>
+<body>
+    <script>
+        let birYear = window.prompt("请输入您的出生年份")
+        let birMouth = window.prompt("请输入您的出生月份")
+        let birDay = window.prompt("请输入您的出生日")
+        let today = new Date() //创建一个新的日期，Date括号里面没有填参数，则默认是当前时间。
+        let mybirthday = new Date(birYear,birMouth-1,birDay) //月份索引从0开始，0表示1月
+        let year = differenceInYears(today, mybirthday)
+        let day = differenceInDays(today, mybirthday)
+        document.write(today+ '<br>'+' 您现在 '+ year + " 岁，您已经在地球上生存了 "+ day + ' 天')
+    </script>
+</body>
+</html>
