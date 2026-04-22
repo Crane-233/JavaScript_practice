@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClothesManagement</title>
+</head>
+<body>
+<script>
+    function Item(name,brand,SKU,sizeCount){ //SKU指的是最小销售单元的唯一性代码，用于追踪。
+        this.name=name;
+        this.brand=brand;
+        this.SKU=SKU;
+        //create an array to store inventory quantities for each size //inventory指的是存货
+        this.sizeInventory=new Array(sizeCount); //有几种size，就创建几个坑位
+        this.updateSizeInventory=updateSizeInventory; //如果在后面加了括号，那么就会立即执行。由于该函数没有返回值（没有return语句），所以会返回undefined，赋值给该语句。
+        //sizeCount = number of size categories
+        //eg. sizeCount =4;  S,M,L,XL size
+        //eg. sizeInventory=[0,30,0,0] (quantity of each size)
+        //this.updateSizeInventory=updateSizeInventory;
+    }
+    
+    // Function to update inventory quantity for a specific size
+    // Parameters:
+    // - sizeNumber: index of the size (start from 0)
+    // - count: quantity to set for this size
+    function updateSizeInventory(sizeNumber, count) {
+    // Update the inventory array at the specified size index
+        this.sizeInventory[sizeNumber]=count;
+        //eg. sizeNumber = 2; count =30;
+        //eg. sizeNumber = 1; count =90;
+        //eg. sizeCount =4;  S,M,L,XL size
+        //eg. sizeInventory=[0,90,30,0] (quantity of each size)
+    }
+
+   // eg. sizeCount=3;//S,M,a
+   // eg. sizeInventory=[30,0,0] //count=30 ,sizeNumber=0
+
+   var Jacket = new Item('Jacket',"Generic Brand","SKU12345",2)
+    Jacket.updateSizeInventory(0,88)
+    Jacket.updateSizeInventory(1,99)
+    document.write(Jacket.name + " by " + Jacket.brand + ' with SKU ' + Jacket.SKU + '<br>' + "Size Inventory: " + Jacket.sizeInventory[0] + ',' + Jacket.sizeInventory[1]) //这里要用实例对象的名字，如"Jacket"，而不要用this。否则引用的是全局对象。
+
+
+</script>
+</body>
+</html>
