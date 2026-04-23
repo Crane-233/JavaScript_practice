@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebook</title>
+    
+    <img src="notebook.png" width="80" height="50"> 
+    <!-- 可以调节图片的宽度和高度 -->
+    
+    <link rel="stylesheet" href="styles316.css"> 
+    <!-- 注意这里要填rel信息（是“relationship”的缩写），表明引入的外部CSS文件与该HTML文件的关系。href表示文件所在的地址 -->
+
+</head>
+<body>
+    <h1>Notebook</h1>
+
+    <form name="notebook" id="notebook" onsubmit="handin(); return false" >
+    
+        <div id="divmess" class="message-container"></div> 
+    <!-- 通过class统一调整外观 -->
+    <label for="title">INPUT:TITLE</label><br>
+    <textarea placeholder="Enter title here" name="title" cols="200" rows="2" id="title" required></textarea><br>
+    
+    <label for="message">INPUT:CONTENT</label><br>
+    <textarea placeholder="Enter your message here" name="message" cols="200" rows="15" id="message" required></textarea><br>
+    
+    <input type="submit" id="submit" value="submit" style="font-size: larger; margin-left: 10px; padding: 20px; border-radius: 50px;background-color: white;" >
+    </form>
+    
+    <script>
+        function handin() {
+            let out = document.getElementById("divmess")
+            let fir = document.notebook.title.value
+            let sec = document.notebook.message.value
+            
+            document.notebook.title.value = ''
+            document.notebook.message.value = ''
+            
+            let today = new Date()
+            let con = '<div class="message-title">' 
+                // 创建一个拥有该样式的容器，使得被包裹在这个容器内的元素显示为这个样式。注意div容器需要用引号括起来。
+                        + fir
+                        + ' (' + today + ')</div>'
+                        +'<div class="message-content">' 
+                        + sec 
+                        + '</div><hr>';
+                        //<hr>（Horizontal Rule）的作用是创建一条水平分割线，用于隔开前后两条信息。不需要闭合。
+            out.innerHTML+=con
+        }
+    </script>
+</body>
+</html>
