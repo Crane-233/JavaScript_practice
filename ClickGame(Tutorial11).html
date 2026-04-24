@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <title>Software development</title>
+        <style>
+            .blueI{
+                color:blue;
+                font-style : italic; 
+            }
+            /* font-style表示字体的形态 */
+
+            .green{ color: green; }
+
+            .lead{
+                color : red;
+                font-family : arial;
+            }
+            /* font-family表示字体的类型 */
+
+            table, tr, td{ border: 1px solid black;}
+            /* border表示边框 */
+
+            td{ text-align : center; }
+            
+            .pad{
+                width : 100px;
+                height : 100px;
+                font-size : 24;
+                }
+                /* pad表示整个4*4和一个按钮 */
+        </style>
+        <script>
+            var timer = "";
+
+            function updateNumber(){ //rearrange the sequence 更新整个4*4面板的数字
+                var checkArray = new Array(16);
+                for(var cnt = 0; cnt < 16; cnt++){
+                    checkArray[cnt] = true;
+                } //将16个格子的布尔值设置为true
+                for(var cnt = initialValue; cnt <= initialValue + 15; cnt++){
+                    var cell = Math.floor(Math.random() * 16) + 1; //生成1-16随机数，用于标记选中了哪一个格子
+                    if(checkArray[cell-1]){
+                        checkArray[(cell-1)] = false; //将选中的格子的布尔值设置为false
+                        cell = "c" + cell; //进行标记，便于查找id，从而能够获取这个格子里面的值并且与正确值相比较
+                        document.getElementById(cell).value = cnt; //随机选取格子，然后依次赋值为n - n+15
+                    }
+                    else
+                        cnt--; //如果选中的格子已经进行赋值操作，那么这个格子不算，再给你一次机会。知道所有格子都被选中 并且 赋值之后，循环才会终止。
+                }
+            }
+
+            function counter(){
+                var timeString = document.getElementById('time').value;
+                
+                if(timeString != "00:00"){ 
+                    var minTime = parseFloat(timeString.substring(0,2)); //substring的作用是提取指定字符串中的子字符串。括号内的参数代表父字符串的索引，第一个参数能取到，第二个参数取不到。 
+                    var secTime = parseFloat(timeString.substring(3)); //如果只有一个参数，那么从这个参数代表的索引开始，一直提取到字符串的末尾。如果参数为负数，自动将其转变为0
+                    var total = minTime * 60 + secTime - 1;
+                    minTime = Math.floor(total / 60);
+                    secTime = total - 60 * minTime;
+                    if (secTime < 10)
+                        secTime = "0" + secTime;
+                    document.getElementById('time').value = "0" + minTime + ":" + secTime;
+                }
+                else{
+                    window.alert("Time's Up.");
+                    clearInterval(timer); //clearInterval是内置函数，可以将已有的计时器删除。防止其在后台消耗资源。
+                    stop();
+                    window.alert(responseTime(parseFloat(document.numbering.score.value)));
+                    reset();
+                    
+                }   
+            }
+            
+            function stop(){ //游戏终止
+                for(var cnt = 1; cnt <= 16; cnt++){
+                    var cell = "c" + cnt;
+                    document.getElementById(cell).value = " "; //将每一个格子里面的值设置为空
+                    document.getElementById(cell).disabled = true; //将disabled属性设置为true，从而按钮变成灰色并且不可点击。
+                }
+            }
+            
+            function responseTime(score){
+                var result = 'Sorry, there is no correct click.';
+                if(score > 0){              
+                    result = (60 - parseFloat(document.getElementById('time').value.substring(3))) / score; //计算所用时间
+                    result = "Your response time/click : " + Math.round(result * 100) / 100 + " seconds."; //保留两位小数
+                }
+                return result;
+            }
+            
+            function reset(){
+                document.getElementById('controlButton').value = 'Start';
+                document.getElementById('time').value = "01:00";
+                document.getElementById('score').value = 0;
+                initialValue = 1;
+            }
+        </script>   
+    </head>
+    <body>
+        <form name='numbering'>
+            <table>
+                <tr>
+                    <th class=blueI colspan=2>Student ID : 13052231</th>
+                    <th class=green colspan=2>Student Name : SHI Ke xin</th>
+                </tr>
+                <tr><th class=lead colspan=4>Click Me - Follow the Orders</th></tr>
+                <tr>
+                    <td colspan=2>Time : <input type=text id=time value="01:00" readonly></td>
+                    <td colspan=2>Score : <input type=text name=score id=score value=0 readonly></td>
+                </tr>
+                <script>//生成4*4格子
+                    var cnt = 1;
+                    for (var row = 0; row < 4; row++){
+                        document.write("<tr>");
+                        for(var col = 0; col < 4; col++){
+                            document.write("<td><input type=button class='pad' id='c" + cnt + "' onclick=checkNumber(document.getElementById('c" + cnt + "').value) disabled></td>"); //id的写法中，将cnt的值代入进去做字符串拼接运算即可。将与正确答案对比的函数插入到按钮行为中。disabled属性的假和真表明该按钮是否能被点击。
+                            cnt++; //意思是在格子里面创建一个按钮元素，然后存储一个数字。
+                        }
+                        document.write("</tr>"); //进行闭合
+                    }
+                </script>
+                <tr>
+                    <td colspan=4><input type=button id='controlButton' value='Start' onclick=checkStatus(document.getElementById('controlButton').value)></td> //通过判断传入按钮的值是什么, 从而在调用checkStatus函数时能够根据不同的值做出不同的操作
+                </tr>
+            </table>
+        </form>
+        
+        <script>
+        var initialValue = 1;
+        function checkNumber(clickValue){ //确认玩家点击的按钮是否正确
+            if (parseFloat(clickValue) == (initialValue)){
+                initialValue++;
+                document.numbering.score.value = parseFloat(document.numbering.score.value) + 1; //正确答案分数+1
+                updateNumber(); //更新4*4格子里面的数据
+            }
+            else{
+                window.alert("Game Over");
+                clearInterval(timer);
+                stop();
+                window.alert(responseTime(parseFloat(document.numbering.score.value)));
+                reset();
+            }
+        }
+
+        function checkStatus(control){
+            if(control == "Start"){  //开始游戏
+                document.getElementById('controlButton').value = 'Reset'; //将按钮的值改为重置。不要把功能绑定给按钮。
+                updateNumber();
+                for(var cnt = 1; cnt <= 16; cnt++){
+                    var cell = "c" + cnt;
+                    document.getElementById(cell).disabled = false; 
+                }
+                timer = setInterval(counter,1000); //1000毫秒等于1秒。 这里意思是间隔时间为1秒
+            }
+            else{ //重置游戏
+                reset();
+                clearInterval(timer); //将计时器清除
+                stop();
+            }
+        }
+        </script>
+    </body>
+</html>
+
