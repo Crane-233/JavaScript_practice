@@ -47,7 +47,11 @@
        function add(){
         let name,grade //在这里就要声明好变量。因为当你使用while或者for循环时，如果在循环内部用let或者const声明变量，循环结束后，变量将无法被外部访问。
         name = window.prompt("请输入学生姓名： ")
-        if (name) { //如果输入符合要求（即不是null或者''） 注意：!name 包含 null 和 ''（空字符串）两种情况
+        //当用户点击取消时，会返回Null。（只要点击取消，结果就会是null，无论输入框中有没有内容）
+        //当用户不输入值，但是点击确定，会返回空字符串 。
+        //当document.getelementByID找不到对应元素是，也会返回null。
+        //判断变量是不是undefined或者null，使用num == null（不会严格区分undefined和null）但是使用num === null 就是与null进行判断。
+        if (name) { //如果输入符合要求（即不是null或者''） 注意：!name 包含 null 和 ''（空字符串）两种情况。
                 grade = window.prompt("请输入对应成绩： ")
                 if (grade) { //如果输入符合要求（即不是null或者''）
                     grade = Number(grade) //将字符串转换为数字或者NaN
