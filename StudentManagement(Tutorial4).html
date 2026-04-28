@@ -7,11 +7,12 @@
 </head>
 <body>
     <div>
+        <!-- 作为一个容器划分区域来存储内容 -->
         <h1>学生信息管理系统</h1>
         <button type="button" id="update">添加学生信息</button>
         <button type="button" id="avg">计算平均分</button>     <!-- avg是average的缩写 -->
         <button type="button" id="best">得分最高者！</button>
-        <p id="content">Class Report<br></p>    <!-- 在<p>标签内，文字换行使用<br> -->
+        <p id="content">Class Report<br></p>    <!-- 在<p>标签内，文字换行使用<br>。 提取里面的内容用的是.innerHTML而不是.value -->
         <p id="avg_content" style="font-size: large;"></p>    <!-- 设置文字字体大小 font-size -->
         <p id="best_content" style="font-size: large;"></p>    <!-- 此处可以将三个<p>内的内容使用类名标记，然后在<script>部分选中这一个类，进行统一修改样式 -->
         </div>
@@ -36,7 +37,7 @@
                 str = str + (stu_name[i]+' : '+stu_grade[i]+'\n')
             }
             document.write(str) //如果将该行代码放在window.onload外面，即在页面加载完之后执行document.write。这会隐式调用document.open()，后果是清空当前文档（包括脚本）的所有内容，然后重新开始写新的内容
-        }
+        } //所以说最好提前编写好函数，然后在window.onload里面的匿名函数中进行调用。
         */
        function report(){ //用来显示当前已存储的学生的成绩信息
         for (let i = 0;i<5;i++) {
@@ -47,16 +48,25 @@
        function add(){
         let name,grade //在这里就要声明好变量。因为当你使用while或者for循环时，如果在循环内部用let或者const声明变量，循环结束后，变量将无法被外部访问。
         name = window.prompt("请输入学生姓名： ")
-        //当用户点击取消时，会返回Null。（只要点击取消，结果就会是null，无论输入框中有没有内容）
+        //当用户点击取消时，会返回null。（只要点击取消，结果就会是null，无论输入框中有没有内容）
         //当用户不输入值，但是点击确定，会返回空字符串 。
         //当document.getelementByID找不到对应元素是，也会返回null。
         //判断变量是不是undefined或者null，使用num == null（不会严格区分undefined和null）但是使用num === null 就是与null进行判断。
         if (name) { //如果输入符合要求（即不是null或者''） 注意：!name 包含 null 和 ''（空字符串）两种情况。
                 grade = window.prompt("请输入对应成绩： ")
-                if (grade) { //如果输入符合要求（即不是null或者''）
+                if (grade) { //如果输入符合要求（即不是null或者''）,这一步已经排除null和空字符串的情况。
                     grade = Number(grade) //将字符串转换为数字或者NaN
                     if (isNaN(grade)){ //如果输入不是一个数字
                     alert('您输入的不是一个数字，请重试！')
+                    }
+                    else{
+                        stu_name.push(name)
+                        stu_grade.push(grade)
+                        //将新增的学生信息分别插入两个数组
+     
+                        document.getElementById('content').innerText += name + ' : ' + String(grade) + '\n' //需要将grade从数字转换为字符串，再进行拼接
+                        document.getElementById('avg_content').innerText = '' //新增学生信息时，将平均分信息清空
+                        document.getElementById('best_content').innerText = '' //新增学生信息时，将最好成绩信息清空
                     }
                 }
                 else{ //如果输入的成绩是null或者''
@@ -67,13 +77,7 @@
             return //返回一个空
         }
             
-       stu_name.push(name)
-       stu_grade.push(grade)
-       //将新增的学生信息分别插入两个数组
-     
-       document.getElementById('content').innerText += name + ' : ' + String(grade) + '\n' //需要将grade从数字转换为字符串，再进行拼接
-       document.getElementById('avg_content').innerText = '' //新增学生信息时，将平均分信息清空
-       document.getElementById('best_content').innerText = '' //新增学生信息时，将最好成绩信息清空
+       
 
         }
 
