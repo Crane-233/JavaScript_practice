@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="content">
+        <div class="search">
+            <input type="text" id="value" placeholder="请输入：" > 
+            <!-- 输入框 -->
+            <input type = "submit"  id="submit" value="提交">
+            <!-- 提交按钮 -->
+        </div>
+        <div class="show_content" id="show">
+            <!-- 下拉列表 -->
+        </div>
+    </div>
+    
+<script>
+    let arr = ["一年级","二年级","三年级","四年级","五年级","六年级"];//模拟数据库
+    let input = document.getElementById("value");
+    let show = document.getElementById("show");
+    input.onkeyup=function(){ //当用户对聊天框操作时，执行该函数
+    show.style.display='block' //对其样式操作为"block"，显示为块状
+    let str = ''
+    arr.forEach((element) => {
+        let result = element.indexOf(input.value); //根据用户在聊天框输入的内容，在数据库找有没有包含指定字符串的字符串。如果不匹配，返回-1
+        if (result != -1){ 
+            str += '<p>'+ element + "</p>"; //如果匹配，拼接到新的字符串上
+        }
+    });
+    if (!input.value || !str) {
+        show.innerHTML = "暂无结果" //聊天框为空或者字符串全部不匹配，返回“暂无结果”
+    }else{
+        show.innerHTML = str; //使用 innerHTML：浏览器会解析这个字符串。它知道 <p> 是一个段落标签，于是会在页面上生成一个个独立的段落行。
+        // 如果改用 innerText 或 textContent：浏览器不会解析标签。它会把 <p>一年级</p> 当作普通文本，连同尖括号一起原封不动地打印在屏幕上
+    }
+}
+    input.onblur=function(){ //当鼠标点击聊天框外时，收起下拉框并且清除聊天框的内容
+        show.style.display='none';
+        input.value='';
+    }
+</script>
+</body>
+</html>
