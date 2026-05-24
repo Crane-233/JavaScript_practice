@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox</title>
+</head>
+<body>
+    <!-- 三种选中方式：1.用户在checkbox中打勾 2.复选框书属性为checked 3.在JS中checked属性为真 -->
+    <form id="name">
+        <p><input type="checkbox">红狼</p>
+        <p><input type="checkbox">蜂医</p>
+        <p><input type="checkbox">乌鲁鲁</p>
+        <p><input type="checkbox">回响</p>
+    </form>
+    <button onclick="getAll(0)">全选</button>
+    <button onclick="getAll(1)">全不选</button>
+    <button onclick="getAll(2)">反选</button>
+    <!-- 将按钮和方法绑定在一起 -->
+    <script>
+        let input = document.getElementsByTagName("input")
+        function getAll(num) { //封装
+            for (let i = 0 ; i<input.length;i++) { //for循环在外面，给复选框赋值属性
+                if (num == 0){ //全选
+                    input[i].checked=true;
+                }else if(num == 1){ //全不选
+                    input[i].checked=false;
+                }else{ //反选
+                    input[i].checked=!input[i].checked //将所有属性反转
+                }
+            }
+        }
+    </script>
+</body>
+</html>
