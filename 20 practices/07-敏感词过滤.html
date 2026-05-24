@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>敏感词过滤</title>
+</head>
+<body>
+    <h2>敏感词过滤</h2>
+    <div>
+    <textarea cols="20" rows="10" id="inputarea"></textarea><br>
+    <!-- 为什么选中textarea，光标前面还有空格这是因为你在 HTML 代码中，把 <textarea> 的标签和内容换行了。
+        在 HTML 中，<textarea> 是一个对空格和换行非常敏感的标签。你在标签内部敲击的任何换行、空格或制表符（Tab），都会被浏览器当成文本框的默认初始内容 -->
+    <input type="submit" value="发布" id="input"><br>
+    <textarea cols="20" rows="10" id="outputarea" readonly></textarea>
+    </div>
+    <script>
+        let inputarea = document.getElementById("inputarea")
+        let outputarea = document.getElementById("outputarea")
+        let input = document.getElementById("input")
+        let regex = /你妈|妈的/g //regex表示正则表达式，用"|"隔开候选词，用//表示包裹正则表达式的定界符；
+        // 而g表示Global，即全局修饰符，代表匹配所有出现的位置。
+        input.onclick = function(){
+            let newinput =  inputarea.value.replace(regex,"*") //regex表示所有匹配到的字符（串），并替代星号（*）。
+            outputarea.innerHTML = newinput
+        }
+    </script>
+</body>
+</html>
