@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birds</title>
+    <style>
+        li {
+            list-style: none;
+            /* 如果没有样式修饰，<li> 会带有前面的小圆点。
+            如果没有样式修饰，<li> 会带有前面的小圆点。 */
+            display: inline-block;
+            /* <li> 标签本身是块级元素（display: block），默认会换行，不像单元格。
+            在这里能够实现类似表格“单元格”横向排列的效果
+            是因为在 <style> 中对它应用了 display: inline-block; 属性 */
+            padding: 5px 10px;
+            /* 撑开了上下左右的内边距，让文字周围有呼吸感，形成类似单元格的格子块 */
+            cursor: pointer;
+            background-color: white;
+        }
+        div img {
+            width: 500px;
+            height: 500px;
+            object-fit: cover; /* 核心：保持原图比例并裁剪填满500px */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>隼</li>
+        <li>鹰</li>
+        <li>雪鸮</li>
+        <li>乌鸫</li>
+    </ul>
+     <div>
+        <img src="sun.jpg" alt="" style="display:block;">
+        <img src="ying.jpg" alt="">
+        <img src="xuexiao.jpg" alt="">
+        <img src="wudong.jpg" alt="">
+    </div>
+    <script>
+    let li = document.getElementsByTagName('li'); //li是一个数组
+    let img = document.getElementsByTagName('img');
+    
+    for (let i = 0; i<li.length; i++) { //通过for循环使每个标签都有相同的功能
+        li[i].index = i; //让每一个li标签赋予索引。因为可以通过索引访问到指定的li标签，但是不能拿到这个标签元素。
+        //DOM 节点对象默认没有 index 或 position 属性
+        li[i].onmouseover = function () { //当光标在这个元素上时
+            this.style.backgroundColor = 'wheat' //标签变为小麦色
+            for (let j = 0 ; j < img.length ; j++) {
+                img[j].style.display = 'none' //全部消失
+            }
+            img[i].style.display= 'block' //特定出现
+        }
+        li[i].onmouseout = function () { //当光标不在这个元素上时
+            this.style.backgroundColor = 'white' //标签变为白色
+            for (let j = 0 ; j < img.length ; j++) {
+            }
+        }
+    }
+</script>
+</body>
+</html>
+
