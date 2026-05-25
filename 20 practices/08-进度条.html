@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress bar</title>
+    <style>
+    .fa{
+        width: 400px;
+        margin-bottom: 30px;
+        border: 1px solid gray;
+    }
+    .son{
+        width: 0px;
+        height: 40px;
+        background-color: wheat;
+        text-align: center;
+        line-height: 40px;
+    }
+</style>
+</head>
+<body>
+    <div class="fa">
+        <div class="son">
+            <span>0</span><span>%</span>
+        </div>
+    </div>
+    <button id="but">安装</button>
+    <script>
+        let son = document.getElementsByTagName('div')[1];
+        let number = document.getElementsByTagName('span')[0];
+        let but = document.getElementById('but');
+        let timer = null; //防止多次安装按钮而发生冲突
+        but.onclick = function (){
+            let num = 0 //进度条的宽度
+            if (timer==null) {
+                timer = setInterval(()=>{ //定时器
+                    num +=4
+                    son.style.width=num +'px' //记得要加'px'
+                    let per = Math.round(num/400*100) //计算百分比
+                    number.innerText=per
+                    if (num==400) { //当进度条100%时
+                    clearInterval(timer) //括号内要写需要终止的定时器名字
+                }
+                },100) //时间间隔为0.1秒
+            }
+        }
+    </script>
+</body>
+</html>
