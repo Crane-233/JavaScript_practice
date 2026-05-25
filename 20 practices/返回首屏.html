@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll bar</title>
+</head>
+<style>
+    body {
+        height: 3000px; 
+        /* 设计页面的高度 */
+        background: linear-gradient(to bottom, #ffe4c4, #87ceeb, gray); 
+        /* linear-gradient：表示线性渐变，即颜色沿着一条直线平滑地过渡。
+        to bottom：指定渐变的方向。表示颜色从最顶部开始，垂直向下过渡到最底部。 */
+    }
+
+    .ret {
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        background-color: bisque;
+        text-align: center;
+        color: black;
+        
+        /* 核心修改 1：使用 fixed 固定定位，确保滚动时按钮位置不变 */
+        position: fixed;    
+        right: 20px;             
+        bottom: 20px;     
+        
+        /* 核心修改 2：默认隐藏按钮（可以通过 display: none 或 opacity） */
+        display: none; 
+        
+        /* 优化体验：让鼠标悬浮时变成小手 */
+        cursor: pointer;
+    }
+    
+    #but {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+<body>
+    <h3>请向下拉动页面（滚出 25% 后右下角会出现按钮）</h3>
+    
+    <div class="ret" id="retBox">
+        <button id="but">返回</button>
+    </div>
+
+    <script>
+        // 1. 获取元素
+        const retBox = document.getElementById('retBox'); // 获取外层装按钮的盒子
+        const but = document.getElementById('but');       // 获取按钮本身
+
+        // 2. 监听网页的滚动事件
+        window.onscroll = function() {
+            // 获取当前已经滚动的距离（当前看过了多少）
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            //有的浏览器通过获取html来查看已经滚动的距离，而有的使用body；为确保兼容性，这里使用‘或’
+            
+            // 获取网页的总高度（整个长图有多长）
+            const scrollHeight = document.documentElement.scrollHeight;
+            
+            // 获取浏览器可视窗口的高度（你的屏幕有多高）
+            const clientHeight = document.documentElement.clientHeight;
+            
+            // 计算真正【可滚动的高度】总长
+            const totalScrollable = scrollHeight - clientHeight;
+            
+            // 计算当前滚动的百分比
+            const scrollPercent = (scrollTop / totalScrollable) * 100;
+
+            // 功能 1：判断是否超过 25%
+            if (scrollPercent >= 25) {
+                retBox.style.display = "block"; // 显示按钮
+            } else {
+                retBox.style.display = "none";  // 隐藏按钮
+            }
+        };
+
+        // 功能 2：点击返回按钮，平滑回到首屏
+        but.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,             // 回到顶部 0 像素位置
+                behavior: 'smooth'  // 平滑滚动动画
+            });
+        });
+    </script>
+</body>
+</html>
